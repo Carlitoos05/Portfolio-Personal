@@ -176,7 +176,8 @@
   .photo-frame .ph-label{font-family:'JetBrains Mono',monospace;font-size:12px;}
   .photo-frame svg{opacity:0.5;}
   .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
-  .stat{background:var(--surface);padding:28px 24px;}
+  .stat{background:var(--surface);padding:28px 24px;text-align:center;}
+  .stat .stat-icon{margin-bottom:12px;color:var(--accent-2);}
   .stat .num{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:32px;color:var(--accent-2);}
   .stat .label{font-size:13px;color:var(--muted);margin-top:6px;}
 
@@ -202,7 +203,93 @@
     white-space:nowrap;
   }
 
-  /* PROCESS */
+  /* CAROUSEL */
+  .carousel-wrap{margin:56px auto 0;max-width:880px;text-align:left;}
+  .carousel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .carousel-label{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);}
+  .carousel-nav{display:flex;gap:10px;}
+  .carousel-btn{
+    width:38px;height:38px;border-radius:50%;border:1px solid var(--border);
+    background:var(--surface);color:var(--text);font-size:16px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,background 0.2s,transform 0.15s;
+  }
+  .carousel-btn:hover{border-color:var(--accent-2);background:var(--accent-soft);}
+  .carousel-btn:active{transform:scale(0.92);}
+  .carousel-track{
+    display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding-bottom:12px;cursor:grab;
+    scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+  }
+  .carousel-track:active{cursor:grabbing;}
+  .carousel-track::-webkit-scrollbar{height:6px;}
+  .carousel-track::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
+  .carousel-card{
+    flex:0 0 auto;width:260px;scroll-snap-align:start;
+    background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:26px 22px;display:flex;flex-direction:column;gap:12px;
+    transition:border-color 0.25s,transform 0.25s;
+  }
+  .carousel-card:hover{border-color:var(--accent-2);transform:translateY(-4px);}
+  .carousel-icon{font-size:26px;}
+  .carousel-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;}
+  .carousel-desc{font-size:13.5px;color:var(--muted);line-height:1.55;}
+  .carousel-card .tag-row{justify-content:flex-start;margin-top:auto;}
+
+  .project-link{
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent-2);
+    background:none;border:none;cursor:pointer;padding:0;margin-top:16px;
+    display:inline-flex;align-items:center;gap:4px;transition:gap 0.2s,color 0.2s;
+    width:fit-content;
+  }
+  .project-link:hover{gap:8px;color:var(--text);}
+  .carousel-card .project-link{margin-top:4px;}
+
+  /* PROJECT MODAL */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:200;background:rgba(4,6,12,0.75);backdrop-filter:blur(6px);
+    display:flex;align-items:flex-start;justify-content:center;padding:5vh 20px;
+    opacity:0;pointer-events:none;transition:opacity 0.3s ease;overflow-y:auto;
+  }
+  .modal-overlay.is-open{opacity:1;pointer-events:auto;}
+  .modal-panel{
+    background:var(--surface);border:1px solid var(--border);border-radius:20px;
+    max-width:720px;width:100%;overflow:hidden;
+    transform:translateY(24px);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    margin-bottom:5vh;
+  }
+  .modal-overlay.is-open .modal-panel{transform:translateY(0);}
+  .modal-hero{
+    padding:56px 40px;position:relative;
+    background:linear-gradient(135deg,var(--surface-2) 0%,var(--bg) 100%);
+    border-bottom:1px solid var(--border);
+  }
+  .modal-close{
+    position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;
+    border:1px solid var(--border);background:var(--surface);color:var(--text);
+    font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:border-color 0.2s,background 0.2s;
+  }
+  .modal-close:hover{border-color:var(--accent-2);background:var(--accent-soft);}
+  .modal-icon{font-size:40px;margin-bottom:18px;}
+  .modal-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(24px,4vw,32px);letter-spacing:-0.02em;max-width:520px;}
+  .modal-body{padding:40px;display:flex;flex-direction:column;gap:32px;}
+  .modal-section-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent-2);margin-bottom:10px;display:block;}
+  .modal-text{color:var(--muted);font-size:15px;line-height:1.65;}
+  .modal-results{display:flex;flex-direction:column;gap:10px;}
+  .modal-results li{list-style:none;color:var(--text);font-size:15px;display:flex;gap:10px;align-items:flex-start;}
+  .modal-results li::before{content:'✓';color:var(--accent-2);font-weight:700;flex-shrink:0;}
+  .modal-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .modal-gallery-item{
+    aspect-ratio:4/3;border-radius:10px;border:1px dashed var(--border);
+    background:var(--surface-2);display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace;text-align:center;padding:8px;
+  }
+  .modal-cta{margin-top:4px;width:fit-content;}
+  @media (max-width:600px){
+    .modal-hero{padding:40px 24px;}
+    .modal-body{padding:28px 24px;gap:26px;}
+    .modal-gallery{grid-template-columns:1fr;}
+  }
   .process-row{margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
   .process-item{
     background:var(--surface);padding:32px 24px;position:relative;
@@ -306,6 +393,8 @@
     .tag-row{justify-content:center;margin-top:16px;}
     .process-row{grid-template-columns:1fr 1fr;}
     .process-item{text-align:center;}
+    .carousel-card{width:230px;}
+    .carousel-nav{display:none;}
     .contact-form{padding:0 4px;}
     .footer-top{gap:28px;}
     .footer-links{flex-direction:column;gap:14px;}
@@ -341,17 +430,12 @@
   <canvas id="net-canvas"></canvas>
   <div class="hero-glow"></div>
   <div class="container hero-content">
-    <div class="eyebrow">DISPONIBLEe PARA NUEVOS PROYECTOS</div>
+    <div class="eyebrow">DISPONIBLE PARA NUEVOS PROYECTOS</div>
     <h1>Software a medida que <span class="grad">automatiza tu negocio</span> y multiplica resultados.</h1>
     <p class="hero-sub">Ayudo a empresas y emprendedores a digitalizar sus procesos mediante páginas web de alto impacto, aplicaciones personalizadas y automatizaciones con inteligencia artificial que optimizan procesos, aumentan las ventas y generan resultados reales.</p>
     <div class="hero-actions">
       <a href="#work" class="btn-primary">Ver proyectos ↓</a>
       <a href="#contact-form" class="btn-primary btn-outline">Hablemos</a>
-    </div>
-    <div class="hero-checklist">
-      <span>✓ Desarrollo Web</span>
-      <span>✓ Software Empresarial</span>
-      <span>✓ Inteligencia Artificial</span>
     </div>
   </div>
 </section>
@@ -374,7 +458,7 @@
   <div class="container">
     <div class="section-header reveal">
       <span class="section-label">// SOBRE MÍ</span>
-      <h2 class="section-title">Soluciones digitales orientadas a resultados, no solo a código.</h2>
+      <h2 class="section-title">Soluciones que hacen crecer tu negocio, no solo software.</h2>
     </div>
     <div class="about-grid">
       <div class="about-text reveal">
@@ -387,9 +471,9 @@
 
         <div class="stat-grid">
           <div class="stat"><div class="num">+10</div><div class="label">Negocios impulsados con soluciones a medida</div></div>
-          <div class="stat"><div class="num">100%</div><div class="label">Soluciones a medida</div></div>
-          <div class="stat"><div class="num">IA</div><div class="label">Automatización real de procesos</div></div>
-          <div class="stat"><div class="num">24h</div><div class="label">Tiempo de respuesta</div></div>
+          <div class="stat"><div class="num" style="font-size:44px;line-height:1;">∞</div><div class="label">Escalabilidad sin límites</div></div>
+          <div class="stat"><div class="num">IA</div><div class="label">Automatización de procesos inteligente</div></div>
+          <div class="stat"><div class="num">24h</div><div class="label">Respuesta garantizada</div></div>
         </div>
       </div>
     </div>
@@ -407,39 +491,96 @@
       <div class="project reveal">
         <div class="p-index">01</div>
         <div>
-          <div class="project-title">IA de clasificación de imágenes</div>
-          <div class="project-desc">Sistema de inteligencia artificial que analiza fotografías y las clasifica automáticamente, eliminando el trabajo manual de organización y acelerando flujos de trabajo con grandes volúmenes de imágenes.</div>
+          <div class="project-title">IA para clasificación de imágenes</div>
+          <div class="project-desc">Organiza automáticamente grandes cantidades de fotografías mediante inteligencia artificial: ahorro de tiempo, cero errores manuales y clasificación en segundos.</div>
         </div>
         <div class="tag-row">
           <span class="tag">Python</span>
           <span class="tag">Visión por computador</span>
           <span class="tag">Machine Learning</span>
         </div>
+        <button class="project-link" data-project="0">Ver proyecto →</button>
       </div>
 
       <div class="project reveal">
         <div class="p-index">02</div>
         <div>
-          <div class="project-title">Base de datos empresarial</div>
-          <div class="project-desc">Diseño e implementación de una base de datos a medida para centralizar la información de una empresa, mejorando la organización, el acceso a los datos y la toma de decisiones.</div>
+          <div class="project-title">Sistema de gestión de datos empresariales</div>
+          <div class="project-desc">Plataforma diseñada para centralizar la información de la empresa, facilitando el acceso a los datos y mejorando la toma de decisiones.</div>
         </div>
         <div class="tag-row">
           <span class="tag">SQL</span>
           <span class="tag">Arquitectura de datos</span>
           <span class="tag">Backend</span>
         </div>
+        <button class="project-link" data-project="1">Ver proyecto →</button>
       </div>
 
       <div class="project reveal">
         <div class="p-index">03</div>
         <div>
-          <div class="project-title">Automatización de gestión de clientes</div>
-          <div class="project-desc">Sistema que automatiza el seguimiento y la gestión de clientes, reduciendo tareas repetitivas y permitiendo que el equipo se enfoque en cerrar ventas en lugar de en tareas administrativas.</div>
+          <div class="project-title">CRM automatizado para seguimiento de clientes</div>
+          <div class="project-desc">Automatiza el seguimiento y la gestión de clientes, recordatorios y oportunidades de venta, reduciendo tareas repetitivas para que el equipo se centre en cerrar ventas.</div>
         </div>
         <div class="tag-row">
           <span class="tag">Automatización</span>
           <span class="tag">CRM</span>
           <span class="tag">Integraciones</span>
+        </div>
+        <button class="project-link" data-project="2">Ver proyecto →</button>
+      </div>
+
+      <div class="project reveal">
+        <div class="p-index">04</div>
+        <div>
+          <div class="project-title">Chatbot con IA</div>
+          <div class="project-desc">Asistente inteligente entrenado para responder dudas de clientes, generar presupuestos y atender consultas 24/7 sin intervención humana.</div>
+        </div>
+        <div class="tag-row">
+          <span class="tag">OpenAI</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">APIs</span>
+        </div>
+        <button class="project-link" data-project="3">Ver proyecto →</button>
+      </div>
+    </div>
+
+    <div class="carousel-wrap reveal">
+      <div class="carousel-header">
+        <span class="carousel-label">Más proyectos</span>
+        <div class="carousel-nav">
+          <button class="carousel-btn" id="carPrev" aria-label="Anterior">←</button>
+          <button class="carousel-btn" id="carNext" aria-label="Siguiente">→</button>
+        </div>
+      </div>
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-card">
+          <div class="carousel-icon">📅</div>
+          <div class="carousel-title">Sistema de reservas online</div>
+          <div class="carousel-desc">Ideal para peluquerías, clínicas o talleres: reservas online con recordatorios automáticos y gestión de disponibilidad.</div>
+          <div class="tag-row"><span class="tag">Reservas</span><span class="tag">Automatización</span></div>
+          <button class="project-link" data-project="4">Ver proyecto →</button>
+        </div>
+        <div class="carousel-card">
+          <div class="carousel-icon">📈</div>
+          <div class="carousel-title">Dashboard empresarial</div>
+          <div class="carousel-desc">Panel de control que reúne ventas, clientes y métricas en tiempo real para facilitar la toma de decisiones.</div>
+          <div class="tag-row"><span class="tag">Dashboard</span><span class="tag">Datos en tiempo real</span></div>
+          <button class="project-link" data-project="5">Ver proyecto →</button>
+        </div>
+        <div class="carousel-card">
+          <div class="carousel-icon">📄</div>
+          <div class="carousel-title">Generador automático de presupuestos</div>
+          <div class="carousel-desc">Crea presupuestos en segundos y los envía automáticamente al cliente, sin plantillas manuales ni retrasos.</div>
+          <div class="tag-row"><span class="tag">Automatización</span><span class="tag">PDF</span></div>
+          <button class="project-link" data-project="6">Ver proyecto →</button>
+        </div>
+        <div class="carousel-card">
+          <div class="carousel-icon">⚙️</div>
+          <div class="carousel-title">Automatización de procesos</div>
+          <div class="carousel-desc">Conecta y automatiza tareas repetitivas entre distintas aplicaciones, eliminando trabajo manual y reduciendo errores.</div>
+          <div class="tag-row"><span class="tag">Integraciones</span><span class="tag">APIs</span></div>
+          <button class="project-link" data-project="7">Ver proyecto →</button>
         </div>
       </div>
     </div>
@@ -450,7 +591,7 @@
   <div class="container">
     <div class="section-header reveal">
       <span class="section-label">// CÓMO TRABAJO</span>
-      <h2 class="section-title">Un proceso claro, de la idea al sistema en producción.</h2>
+      <h2 class="section-title">Un proceso claro, de la idea a una solución que impulse tu negocio.</h2>
     </div>
     <div class="process-row">
       <div class="process-item reveal">
@@ -503,6 +644,39 @@
     </form>
   </div>
 </section>
+
+<div class="modal-overlay" id="projectModal">
+  <div class="modal-panel" role="dialog" aria-modal="true">
+    <div class="modal-hero">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+      <div class="modal-icon" id="modalIcon"></div>
+      <h3 class="modal-title" id="modalTitle"></h3>
+    </div>
+    <div class="modal-body">
+      <div>
+        <span class="modal-section-label">// EL PROBLEMA</span>
+        <p class="modal-text" id="modalProblem"></p>
+      </div>
+      <div>
+        <span class="modal-section-label">// LA SOLUCIÓN</span>
+        <p class="modal-text" id="modalSolution"></p>
+      </div>
+      <div>
+        <span class="modal-section-label">// TECNOLOGÍAS</span>
+        <div class="tag-row" id="modalTags" style="justify-content:flex-start;"></div>
+      </div>
+      <div>
+        <span class="modal-section-label">// GALERÍA</span>
+        <div class="modal-gallery" id="modalGallery"></div>
+      </div>
+      <div>
+        <span class="modal-section-label">// RESULTADOS</span>
+        <ul class="modal-results" id="modalResults"></ul>
+      </div>
+      <a href="#contact-form" class="btn-primary modal-cta" id="modalCta">Solicitar un proyecto similar →</a>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="container">
@@ -669,6 +843,139 @@ if(logoHome){
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
+// Carousel: prev/next buttons + drag-to-scroll
+const carTrack = document.getElementById('carouselTrack');
+const carPrev = document.getElementById('carPrev');
+const carNext = document.getElementById('carNext');
+
+if(carTrack){
+  const scrollByCard = () => {
+    const card = carTrack.querySelector('.carousel-card');
+    return card ? card.offsetWidth + 20 : 260;
+  };
+  carPrev?.addEventListener('click', () => carTrack.scrollBy({ left: -scrollByCard(), behavior: 'smooth' }));
+  carNext?.addEventListener('click', () => carTrack.scrollBy({ left: scrollByCard(), behavior: 'smooth' }));
+
+  // Mouse drag-to-scroll (desktop)
+  let isDown = false, startX = 0, scrollStart = 0;
+  carTrack.addEventListener('mousedown', (e) => {
+    isDown = true;
+    startX = e.pageX;
+    scrollStart = carTrack.scrollLeft;
+  });
+  window.addEventListener('mouseup', () => { isDown = false; });
+  window.addEventListener('mousemove', (e) => {
+    if(!isDown) return;
+    e.preventDefault();
+    carTrack.scrollLeft = scrollStart - (e.pageX - startX);
+  });
+}
+// Project detail modal
+const projectsData = [
+  {
+    icon: '🤖',
+    title: 'IA para clasificación de imágenes',
+    problem: 'Clasificar manualmente grandes volúmenes de fotografías consume mucho tiempo y genera errores humanos que ralentizan el flujo de trabajo.',
+    solution: 'Sistema de inteligencia artificial entrenado para analizar imágenes y clasificarlas automáticamente según criterios definidos, integrable en el flujo de trabajo existente.',
+    tags: ['Python', 'Visión por computador', 'Machine Learning'],
+    results: ['Ahorro de tiempo significativo', 'Eliminación de errores manuales', 'Clasificación en segundos, no en horas']
+  },
+  {
+    icon: '📊',
+    title: 'Sistema de gestión de datos empresariales',
+    problem: 'La información de la empresa estaba dispersa en distintos archivos y hojas de cálculo, dificultando el acceso y ralentizando la toma de decisiones.',
+    solution: 'Plataforma centralizada y estructurada para almacenar y consultar los datos de la empresa desde un único punto, con acceso rápido y seguro.',
+    tags: ['SQL', 'Arquitectura de datos', 'Backend'],
+    results: ['Acceso centralizado a toda la información', 'Menos errores por duplicidad de datos', 'Decisiones más rápidas y fundamentadas']
+  },
+  {
+    icon: '👥',
+    title: 'CRM automatizado para seguimiento de clientes',
+    problem: 'El seguimiento manual de clientes hacía perder oportunidades de venta y generaba tareas repetitivas para el equipo comercial.',
+    solution: 'CRM automatizado que gestiona el seguimiento de clientes, recordatorios y oportunidades de venta sin intervención manual constante.',
+    tags: ['Automatización', 'CRM', 'Integraciones'],
+    results: ['+60% menos tareas manuales', 'Seguimiento automático de oportunidades', 'Equipo centrado en cerrar ventas, no en tareas administrativas']
+  },
+  {
+    icon: '💬',
+    title: 'Chatbot con IA',
+    problem: 'Atender consultas de clientes fuera de horario laboral o en gran volumen es inviable haciéndolo solo con personas.',
+    solution: 'Asistente inteligente entrenado con IA capaz de responder dudas, generar presupuestos y atender consultas las 24 horas del día.',
+    tags: ['OpenAI', 'Node.js', 'APIs'],
+    results: ['Atención al cliente 24/7', 'Respuestas instantáneas sin esperas', 'Menos carga de soporte para el equipo humano']
+  },
+  {
+    icon: '📅',
+    title: 'Sistema de reservas online',
+    problem: 'Gestionar reservas por teléfono o WhatsApp provoca errores de agenda, solapamientos y pérdida de tiempo.',
+    solution: 'Plataforma de reservas online con disponibilidad en tiempo real y recordatorios automáticos, ideal para peluquerías, clínicas o talleres.',
+    tags: ['Reservas', 'Automatización', 'Notificaciones'],
+    results: ['Menos ausencias gracias a los recordatorios', 'Agenda siempre actualizada y sin solapamientos', 'Reservas disponibles 24/7 sin llamadas']
+  },
+  {
+    icon: '📈',
+    title: 'Dashboard empresarial',
+    problem: 'Los datos de ventas, clientes y métricas estaban repartidos en distintas herramientas, dificultando tener una visión global del negocio.',
+    solution: 'Panel de control centralizado que reúne ventas, clientes y métricas clave en tiempo real en una sola pantalla.',
+    tags: ['Dashboard', 'Datos en tiempo real', 'Visualización'],
+    results: ['Visión completa del negocio de un vistazo', 'Decisiones basadas en datos siempre actualizados', 'Menos tiempo buscando información dispersa']
+  },
+  {
+    icon: '📄',
+    title: 'Generador automático de presupuestos',
+    problem: 'Crear presupuestos manualmente es lento y retrasa la respuesta al cliente, afectando la imagen profesional del negocio.',
+    solution: 'Aplicación que genera presupuestos personalizados en segundos y los envía automáticamente al cliente, sin plantillas manuales.',
+    tags: ['Automatización', 'PDF', 'Plantillas dinámicas'],
+    results: ['Presupuestos listos en segundos', 'Envío automático sin intervención manual', 'Imagen más profesional ante el cliente']
+  },
+  {
+    icon: '⚙️',
+    title: 'Automatización de procesos',
+    problem: 'Las tareas repetitivas entre distintas aplicaciones consumen tiempo del equipo y son propensas a errores humanos.',
+    solution: 'Conexión y automatización de procesos entre herramientas para eliminar el trabajo manual repetitivo y reducir errores.',
+    tags: ['Integraciones', 'APIs', 'Automatización'],
+    results: ['Menos trabajo manual repetitivo', 'Menos errores humanos en procesos clave', 'Procesos más rápidos y fiables']
+  }
+];
+
+const projectModal = document.getElementById('projectModal');
+const modalIcon = document.getElementById('modalIcon');
+const modalTitle = document.getElementById('modalTitle');
+const modalProblem = document.getElementById('modalProblem');
+const modalSolution = document.getElementById('modalSolution');
+const modalTags = document.getElementById('modalTags');
+const modalGallery = document.getElementById('modalGallery');
+const modalResults = document.getElementById('modalResults');
+const modalClose = document.getElementById('modalClose');
+
+function openProjectModal(index){
+  const p = projectsData[index];
+  if(!p || !projectModal) return;
+
+  modalIcon.textContent = p.icon;
+  modalTitle.textContent = p.title;
+  modalProblem.textContent = p.problem;
+  modalSolution.textContent = p.solution;
+  modalTags.innerHTML = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  modalGallery.innerHTML = [1,2,3].map(n => `<div class="modal-gallery-item">Captura ${n}<br>(pendiente)</div>`).join('');
+  modalResults.innerHTML = p.results.map(r => `<li>${r}</li>`).join('');
+
+  projectModal.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProjectModal(){
+  projectModal.classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.project-link').forEach(btn => {
+  btn.addEventListener('click', () => openProjectModal(parseInt(btn.dataset.project, 10)));
+});
+modalClose?.addEventListener('click', closeProjectModal);
+projectModal?.addEventListener('click', (e) => { if(e.target === projectModal) closeProjectModal(); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeProjectModal(); });
+document.getElementById('modalCta')?.addEventListener('click', closeProjectModal);
 </script>
 
 </body>
